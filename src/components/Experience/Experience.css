@@ -1,0 +1,215 @@
+.experience-section {
+  padding: 100px 0;
+  background: transparent;
+  position: relative;
+}
+
+.experience-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 12, 16, 0.72);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.experience-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.exp-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  margin-top: 56px;
+  align-items: start;
+}
+
+/* ─── Sidebar tabs ───────────────────────────────────────────── */
+.exp-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 100px;
+}
+
+.exp-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--card-radius);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.exp-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+  transition: height var(--transition);
+}
+
+.exp-tab:hover {
+  background: var(--bg-card);
+  border-color: var(--border);
+  box-shadow:
+    0 0 0 1px rgba(110, 231, 183, 0.06),
+    0 4px 16px rgba(110, 231, 183, 0.05);
+}
+
+.exp-tab.active {
+  background: var(--bg-card);
+  border-color: rgba(110, 231, 183, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(110, 231, 183, 0.08),
+    0 4px 20px rgba(110, 231, 183, 0.06);
+}
+
+.exp-tab.active::before { height: 60%; }
+
+.exp-tab-company {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: block;
+}
+
+.exp-tab.active .exp-tab-company { color: var(--accent); }
+
+.exp-tab-date {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  display: block;
+}
+
+/* ─── Content card ───────────────────────────────────────────── */
+.exp-content {
+  padding: 32px;
+  animation: fadeUp 0.4s ease forwards;
+  transition: all var(--transition-slow);
+}
+
+.exp-content:hover {
+  border-color: rgba(110, 231, 183, 0.35);
+  background: var(--bg-hover);
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(110, 231, 183, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 40px rgba(110, 231, 183, 0.08),
+    0 0 80px rgba(110, 231, 183, 0.04);
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.exp-role {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.exp-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+.exp-company { color: var(--accent); font-weight: 500; }
+.exp-separator { color: var(--text-muted); }
+
+.exp-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.exp-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(110, 231, 183, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(110, 231, 183, 0.2);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.exp-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.exp-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exp-bullet {
+  display: flex;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.bullet-arrow {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .experience-section { padding: 72px 0; }
+  .exp-layout { grid-template-columns: 1fr; }
+  .exp-tabs {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    gap: 6px;
+  }
+  .exp-tab {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 10px 14px;
+  }
+  .exp-tab::before { display: none; }
+  .exp-content { padding: 24px; }
+  .exp-header { flex-direction: column; gap: 12px; }
+}
