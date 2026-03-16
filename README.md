@@ -6,7 +6,7 @@ This project showcases my work, skills, and projects as a **Full Stack Developer
 The portfolio is designed with a **modern UI, smooth animations, and responsive design** to provide a clean and professional user experience.
 
 🌐 **Live Website:**
-👉 https://your-vercel-link.vercel.app
+👉 vishal-portfolio-lilac.vercel.app
 
 ---
 
@@ -62,13 +62,13 @@ npm install
 ### 4️⃣ Start development server
 
 ```
-npm run dev
+npm start
 ```
 
 The app will run at:
 
 ```
-http://localhost:5173
+(http://localhost:3000)
 ```
 
 ---
