@@ -3,6 +3,7 @@
   background: transparent;
   border-top: 1px solid var(--border);
   position: relative;
+  z-index: 1; /* ✅ FIX */
 }
 
 .contact-section::before {
@@ -11,37 +12,19 @@
   inset: 0;
   background: rgba(9, 12, 16, 0.78);
   pointer-events: none;
-  z-index: 0;
+  z-index: 0; /* ✅ FIX: overlay stays behind children */
 }
 
+/* ✅ FIX: explicit z-index so children sit above ::before but below nav */
 .contact-section > * {
   position: relative;
   z-index: 1;
 }
 
-/* ─── Two-column grid ────────────────────────────────────────── */
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;              /* more breathing space */
-  margin-top: 36px;       /* proper gap after Contact Me */
-  align-items: start;     /* aligns both columns from the top */
-}
-
-/* ─── Left column — uniform spacing via flex gap ─────────────── */
-.contact-left {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;              /* slightly more breathing space */
-}
-
-.contact-sub {
-  color: var(--text-secondary);
-  font-size: 0.98rem;
-  line-height: 1.8;
-  max-width: 420px;
-  margin-top: 6px;        /* small gap under Contact Me */
-}
+/* ─── Layout ─────────────────────────────────────────────────── */
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 20px; align-items: start; }
+.contact-left { display: flex; flex-direction: column; gap: 26px; }
+.contact-sub { color: var(--text-secondary); font-size: 0.98rem; line-height: 1.8; max-width: 420px; margin-top: 6px; }
 
 /* ─── Available badge ────────────────────────────────────────── */
 .contact-available {
@@ -60,8 +43,7 @@
 }
 
 .avail-dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 6px var(--accent);
@@ -69,36 +51,11 @@
   animation: pulse 2s infinite;
 }
 
-/* ─── Email block ────────────────────────────────────────────── */
-.contact-email-block {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.contact-email-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.contact-email-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.contact-email {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text-primary);
-  font-weight: 500;
-  transition: color var(--transition);
-}
-
+/* ─── Email ──────────────────────────────────────────────────── */
+.contact-email-block { display: flex; flex-direction: column; gap: 10px; }
+.contact-email-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.contact-email-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.contact-email { font-family: var(--font-body); font-size: 1rem; color: var(--text-primary); font-weight: 500; transition: color var(--transition); }
 .contact-email:hover { color: var(--accent); }
 
 .copy-btn {
@@ -114,18 +71,10 @@
   transition: all var(--transition);
 }
 
-.copy-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(110, 231, 183, 0.15);
-}
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(110, 231, 183, 0.15); }
 
-/* ─── Social links ───────────────────────────────────────────── */
-.contact-socials {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+/* ─── Socials ────────────────────────────────────────────────── */
+.contact-socials { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .contact-social-link {
   display: inline-flex;
@@ -147,16 +96,9 @@
   transform: translateY(-2px);
 }
 
-/* ─── Right column ───────────────────────────────────────────── */
-.contact-right {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 4px;
-  margin-top: -65px;   /* moves the card upward */
-}
+/* ─── Right / CTA card ───────────────────────────────────────── */
+.contact-right { display: flex; align-items: flex-start; justify-content: center; }
 
-/* ─── CTA card ───────────────────────────────────────────────── */
 .contact-cta {
   width: 100%;
   padding: 44px 40px;
@@ -166,6 +108,7 @@
   align-items: center;
   gap: 18px;
   transition: all var(--transition-slow);
+  cursor: default;
 }
 
 .contact-cta:hover {
@@ -179,15 +122,8 @@
     0 0 80px rgba(110, 231, 183, 0.04);
 }
 
-.cta-icon {
-  font-size: 2.2rem;
-  line-height: 1;
-  transition: filter var(--transition);
-}
-
-.contact-cta:hover .cta-icon {
-  filter: drop-shadow(0 0 14px rgba(110, 231, 183, 0.55));
-}
+.cta-icon { font-size: 2.2rem; line-height: 1; transition: filter var(--transition); }
+.contact-cta:hover .cta-icon { filter: drop-shadow(0 0 14px rgba(110, 231, 183, 0.55)); }
 
 .cta-title {
   font-family: var(--font-display);
@@ -200,19 +136,8 @@
 }
 
 .contact-cta:hover .cta-title { color: var(--accent); }
-
-.cta-desc {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.75;
-  max-width: 300px;
-}
-
-.cta-btn {
-  margin-top: 6px;
-  width: 100%;
-  justify-content: center;
-}
+.cta-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75; max-width: 300px; }
+.cta-btn { margin-top: 6px; width: 100%; justify-content: center; }
 
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {

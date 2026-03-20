@@ -1,11 +1,14 @@
-/* ─── Skills Section ─────────────────────────────────────────── */
 .skills-section {
   padding: 100px 0 0;
   background: transparent;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   position: relative;
-  overflow: hidden;
+  /*
+   * ✅ FIX: z-index: 1 keeps this section below the nav drawer (1001),
+   * overlay (1000), and hamburger (1002) at the root stacking context.
+   */
+  z-index: 1;
 }
 
 .skills-section::before {
@@ -14,9 +17,20 @@
   inset: 0;
   background: rgba(9, 12, 16, 0.72);
   pointer-events: none;
+  /*
+   * ✅ FIX: z-index: 0 keeps the ::before overlay BEHIND the section's
+   * own children, not above them. Without this the overlay was
+   * obscuring nav-link text when the drawer slid over this section.
+   */
   z-index: 0;
 }
 
+/*
+ * ✅ FIX: Was `position: relative` with no z-index — that silently
+ * promoted children into a new stacking context that could win over
+ * the fixed nav. Now explicitly z-index: 1 so they sit above the
+ * ::before overlay but well below the nav layer.
+ */
 .skills-section > * {
   position: relative;
   z-index: 1;
@@ -50,68 +64,40 @@
 }
 
 .skill-cap-dot {
-  width: 5px;
-  height: 5px;
-  min-width: 5px;
+  width: 5px; height: 5px; min-width: 5px;
   border-radius: 50%;
   background: var(--accent);
   margin-top: 8px;
 }
 
-/* ─── Ticker wrapper ──────────────────────────────────────────── */
-/*  Full viewport width, clips overflow, has edge fade masks     */
+/* ─── Ticker ──────────────────────────────────────────────────── */
 .ticker-wrapper {
   position: relative;
   width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  left: 50%; right: 50%;
+  margin-left: -50vw; margin-right: -50vw;
   overflow: hidden;
   padding: 28px 0 36px;
-  /* Top/bottom subtle separator lines */
   border-top: 1px solid var(--border);
-  /* Left & right fade-out masks */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-/* ─── The scrolling track ─────────────────────────────────────── */
-/*  Two copies of the skill list sit inline.
-    The animation shifts left by exactly 50% (= one copy),
-    then snaps back — creating a perfectly seamless infinite loop. */
 .ticker-track {
   display: flex;
   align-items: center;
   width: max-content;
-  gap: 0;
-  /* duration controls speed — increase to slow down */
   animation: ticker-scroll 28s linear infinite;
   will-change: transform;
 }
 
-.ticker-track:hover {
-  animation-play-state: paused;
-}
+.ticker-track:hover { animation-play-state: paused; }
 
 @keyframes ticker-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* ─── Individual skill item ───────────────────────────────────── */
 .ticker-item {
   display: inline-flex;
   align-items: center;
@@ -120,89 +106,33 @@
   margin: 0 4px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 100px;           /* full pill */
+  border-radius: 100px;
   white-space: nowrap;
   cursor: default;
-  transition:
-    border-color 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease,
-    transform 0.25s ease;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .ticker-item:hover {
   border-color: rgba(110, 231, 183, 0.4);
   background: rgba(110, 231, 183, 0.05);
   transform: translateY(-3px) scale(1.04);
-  box-shadow:
-    0 0 0 1px rgba(110, 231, 183, 0.15),
-    0 6px 20px rgba(110, 231, 183, 0.12),
-    0 0 32px rgba(110, 231, 183, 0.06);
+  box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.15), 0 6px 20px rgba(110, 231, 183, 0.12), 0 0 32px rgba(110, 231, 183, 0.06);
 }
 
-/* ─── Icon inside ticker ──────────────────────────────────────── */
-.ticker-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: filter 0.25s ease;
-}
+.ticker-icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: filter 0.25s ease; }
+.ticker-icon svg { width: 100%; height: 100%; }
+.ticker-item:hover .ticker-icon { filter: drop-shadow(0 0 6px currentColor); }
 
-.ticker-icon svg {
-  width: 100%;
-  height: 100%;
-}
+.ticker-name { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-secondary); letter-spacing: 0.06em; transition: color 0.25s ease; }
+.ticker-item:hover .ticker-name { color: var(--text-primary); }
 
-.ticker-item:hover .ticker-icon {
-  filter: drop-shadow(0 0 6px currentColor);
-}
+.ticker-dot { font-size: 0.4rem; color: rgba(110, 231, 183, 0.25); margin: 0 10px; flex-shrink: 0; user-select: none; }
 
-/* ─── Skill name inside ticker ────────────────────────────────── */
-.ticker-name {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.06em;
-  transition: color 0.25s ease;
-}
-
-.ticker-item:hover .ticker-name {
-  color: var(--text-primary);
-}
-
-/* ─── Dot separator ───────────────────────────────────────────── */
-.ticker-dot {
-  font-size: 0.4rem;
-  color: rgba(110, 231, 183, 0.25);
-  margin: 0 10px;
-  flex-shrink: 0;
-  user-select: none;
-}
-
-/* ─── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .skills-section {
-    padding: 72px 0 0;
-  }
-
-  .ticker-track {
-    animation-duration: 20s;
-  }
-
-  .ticker-item {
-    padding: 8px 16px;
-  }
-
-  .ticker-name {
-    font-size: 0.72rem;
-  }
+  .skills-section { padding: 72px 0 0; }
+  .ticker-track { animation-duration: 20s; }
+  .ticker-item { padding: 8px 16px; }
+  .ticker-name { font-size: 0.72rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation: none;
-  }
-}
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }

@@ -1,9 +1,15 @@
+/* ═══════════════════════════════════════════════════════════════
+   HEADER — Vishal Pandey Portfolio
+   The mobile <nav> and .nav-overlay are portaled to document.body
+   so they are NEVER clipped or z-index-trapped by any section.
+   ═══════════════════════════════════════════════════════════════ */
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 999;
   padding: 22px 0;
   transition: all var(--transition-slow);
   opacity: 0;
@@ -11,7 +17,7 @@
 }
 
 .header.scrolled {
-  background: rgba(9, 12, 16, 0.88);
+  background: rgba(9, 12, 16, 0.92);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
@@ -32,19 +38,15 @@
   color: var(--text-primary);
   letter-spacing: 0.04em;
   transition: color var(--transition);
+  position: relative;
+  z-index: 1002;
 }
 
-.logo:hover {
-  color: var(--accent);
-}
+.logo:hover { color: var(--accent); }
+.logo-bracket { color: var(--accent); font-weight: 300; }
 
-.logo-bracket {
-  color: var(--accent);
-  font-weight: 300;
-}
-
-/* ─── Nav ────────────────────────────────────────────────────── */
-.nav {
+/* ─── Desktop Nav ────────────────────────────────────────────── */
+.nav-desktop {
   display: flex;
   align-items: center;
   gap: 36px;
@@ -70,85 +72,154 @@
   transition: width var(--transition);
 }
 
-.nav-link:hover {
-  color: var(--accent);
-}
+.nav-link:hover { color: var(--accent); }
+.nav-link:hover::after { width: 100%; }
 
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.nav-resume {
-  padding: 9px 20px;
-  font-size: 0.84rem;
-}
+.nav-resume { padding: 9px 20px; font-size: 0.84rem; }
 
 /* ─── Hamburger ──────────────────────────────────────────────── */
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px;
+  position: relative;
+  z-index: 1002;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  transition: background var(--transition);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
+
+.hamburger:hover { background: rgba(255, 255, 255, 0.06); }
+.hamburger:focus { outline: none; box-shadow: none; }
+.hamburger:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .hamburger span {
   display: block;
   width: 22px;
   height: 1.5px;
-  background: var(--text-secondary);
-  transition: all var(--transition);
+  background: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
+  border-radius: 2px;
 }
 
-.hamburger.active span:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
-}
+.hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg);   background: var(--accent); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--accent); }
 
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
-}
-
-/* ─── Mobile Nav ─────────────────────────────────────────────── */
+/* ─── Mobile ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
+  .nav-desktop { display: none !important; }
+  .hamburger   { display: flex; }
 
+  /*
+   * Portaled mobile drawer — lives on document.body.
+   * position:fixed + explicit z-index beats every section.
+   */
   .nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 270px;
-    background: var(--bg-2);
-    border-left: 1px solid var(--border);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 84px 36px 44px;
-    gap: 28px;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 99;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: 270px !important;
+
+    /* CRITICAL: fully opaque solid background */
+    background: #0d1117 !important;
+    background-color: #0d1117 !important;
+
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: -16px 0 48px rgba(0, 0, 0, 0.9) !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    padding: 90px 36px 44px !important;
+
+    transform: translateX(100%) !important;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    z-index: 1001 !important;
+    isolation: isolate;
   }
 
-  .nav.open {
-    transform: translateX(0);
+  .nav.open { transform: translateX(0) !important; }
+
+  .nav .nav-link {
+    font-size: 1rem !important;
+    color: #f0f4f8 !important;
+    width: 100% !important;
+    padding: 16px 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    letter-spacing: 0.04em;
+    font-family: var(--font-mono);
+    opacity: 1 !important;
+    position: relative;
+    z-index: 1;
+    display: block;
   }
 
-  .nav-link {
-    font-size: 0.98rem;
-    color: var(--text-primary);
-  }
+  .nav .nav-link::after  { display: none !important; }
+  .nav .nav-link:hover   { color: var(--accent) !important; }
+  .nav .nav-link:last-of-type { border-bottom: none !important; }
 
-  .nav-resume {
-    margin-top: 16px;
-    font-size: 0.95rem;
+  .nav .nav-resume {
+    margin-top: 28px !important;
+    font-size: 0.95rem !important;
+    width: 100% !important;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
   }
+}
+
+/* ─── Overlay (portaled to body) ─────────────────────────────── */
+.nav-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 1000 !important;
+  cursor: pointer;
+}
+
+/* ─── Close button inside mobile drawer ─────────────────────── */
+.nav-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+
+.nav-close:hover {
+  background: rgba(110, 231, 183, 0.10);
+  border-color: rgba(110, 231, 183, 0.35);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(110, 231, 183, 0.15);
 }

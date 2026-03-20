@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import "./styles/global.css";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
@@ -11,11 +12,6 @@ import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import useScrollAnimation from "./hooks/useScrollAnimation";
 
-/* ─────────────────────────────────────────────────────────────
-   GLOBAL BACKGROUND CANVAS
-   • Planets: 1.5–4 px radius, subtle colour-tinted drift
-   • Shooting stars: occasional meteor streaks
-────────────────────────────────────────────────────────────── */
 function GlobalCanvas() {
   const ref = useRef(null);
 
@@ -71,7 +67,6 @@ function GlobalCanvas() {
       ctx.clearRect(0, 0, w, h);
       fc++;
 
-      /* planets */
       planets.forEach((p) => {
         p.pulse += p.ps;
         const a = p.baseA + Math.sin(p.pulse) * 0.03;
@@ -94,7 +89,6 @@ function GlobalCanvas() {
         if (p.y < -m) p.y = h + m; if (p.y > h + m) p.y = -m;
       });
 
-      /* shooting stars */
       if (fc % 210 === 0) shooters.push(makeStar());
       shooters = shooters.filter(s => s.phase !== "dead");
       shooters.forEach((s) => {
@@ -129,13 +123,14 @@ function GlobalCanvas() {
 }
 
 export default function App() {
-  // Activates scroll-triggered animations on all [data-animate] elements
   useScrollAnimation();
 
   return (
     <>
       <GlobalCanvas />
-      <Header />
+
+      {ReactDOM.createPortal(<Header />, document.body)}
+
       <main>
         <Hero />
         <Skills />

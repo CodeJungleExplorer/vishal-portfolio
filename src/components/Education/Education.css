@@ -1,19 +1,54 @@
 .education-section {
   padding: 100px 0;
+  background: transparent;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1; /* ✅ FIX */
 }
 
-.edu-list {
-  margin-top: 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.education-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 12, 16, 0.70);
+  pointer-events: none;
+  z-index: 0; /* ✅ FIX: overlay stays behind children */
 }
 
+/* ✅ FIX: explicit z-index so children sit above ::before but below nav */
+.education-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.edu-list { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; }
+
+/* ─── Card ───────────────────────────────────────────────────── */
 .edu-card {
   display: flex;
   gap: 24px;
   padding: 32px;
   align-items: flex-start;
+  transition: all var(--transition-slow);
+  position: relative;
+  cursor: default;
+}
+
+.edu-card:hover {
+  border-color: rgba(110, 231, 183, 0.35);
+  background: var(--bg-hover);
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(110, 231, 183, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 40px rgba(110, 231, 183, 0.08),
+    0 0 80px rgba(110, 231, 183, 0.04);
+}
+
+.edu-card:hover .edu-icon {
+  background: rgba(110, 231, 183, 0.12);
+  border-color: rgba(110, 231, 183, 0.35);
+  box-shadow: 0 0 20px rgba(110, 231, 183, 0.15);
 }
 
 .edu-icon {
@@ -26,11 +61,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-.edu-body {
-  flex: 1;
-}
+.edu-body { flex: 1; }
 
 .edu-top {
   display: flex;
@@ -46,42 +80,17 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
+  transition: color var(--transition);
 }
 
-.edu-duration {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
+.edu-card:hover .edu-school { color: var(--accent); }
 
-.edu-degree {
-  color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.edu-desc {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  line-height: 1.7;
-}
+.edu-duration { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.05em; white-space: nowrap; }
+.edu-degree { color: var(--accent); font-size: 0.875rem; font-weight: 500; margin-bottom: 10px; }
+.edu-desc { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.7; }
 
 @media (max-width: 768px) {
-  .education-section {
-    padding: 72px 0;
-  }
-
-  .edu-card {
-    flex-direction: column;
-    gap: 16px;
-    padding: 24px;
-  }
-
-  .edu-top {
-    flex-direction: column;
-    gap: 6px;
-  }
+  .education-section { padding: 72px 0; }
+  .edu-card { flex-direction: column; gap: 16px; padding: 24px; }
+  .edu-top { flex-direction: column; gap: 6px; }
 }

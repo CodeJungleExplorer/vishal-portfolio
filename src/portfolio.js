@@ -7,7 +7,7 @@ export const greeting = {
   subTitle:
     "I build and deploy web applications from frontend to production. My core stack includes JavaScript, React, Node.js, Express and Python with MongoDB and SQL databases. I also work with Docker, Kubernetes, AWS, Vercel and GitHub Actions to containerize, automate and ship applications.",
   resumeLink:
-    "https://drive.google.com/file/d/1XCz69mbdNhJLGNSbX85W125BTCktP_ce/view?usp=drivesdk",
+    "https://drive.google.com/file/d/1AenX3U5bwBtwqL1auL4R8r-kSeFhgS6S/view?usp=sharing",
 };
 
 export const socialMediaLinks = {
