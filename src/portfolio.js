@@ -18,7 +18,8 @@ export const socialMediaLinks = {
 
 export const skillsSection = {
   title: "What I Do",
-  subTitle: "Full Stack Developer building and deploying modern web applications",
+  subTitle:
+    "Full Stack Developer building and deploying modern web applications",
   skills: [
     "Build responsive frontend applications using HTML, CSS, JavaScript and React",
     "Develop scalable backend APIs using Node.js, Express and Python with MongoDB and SQL databases",
@@ -120,6 +121,20 @@ export const bigProjects = {
   subtitle: "Some applications and systems I have built",
   projects: [
     {
+      projectName: "Retail Intelligence Map",
+      projectDesc:
+        "A full stack retail analytics platform that processes 150K+ retail records and visualizes store intelligence using interactive maps, clustering, filtering, and scalable backend APIs.",
+      github: "https://github.com/CodeJungleExplorer/retail-intelligence-map",
+      live: "https://retail-intelligence-map.vercel.app",
+      tags: [
+        "TypeScript",
+        "Google Maps API",
+        "TanStack Query",
+        "Zustand",
+        "Supercluster",
+      ],
+    },
+    {
       projectName: "NovaOS",
       projectDesc:
         "A full stack platform built with React, Node.js and MongoDB featuring scalable architecture and production-ready deployment.",
@@ -147,7 +162,8 @@ export const bigProjects = {
       projectName: "VectorShift Pipeline Editor",
       projectDesc:
         "A visual pipeline editor built with ReactFlow and FastAPI allowing users to create node-based workflows and analyze them as Directed Acyclic Graphs.",
-      github: "https://github.com/CodeJungleExplorer/vectorshift-nodeflow-pipeline-editor",
+      github:
+        "https://github.com/CodeJungleExplorer/vectorshift-nodeflow-pipeline-editor",
       live: null,
       tags: ["ReactFlow", "FastAPI", "Python", "DAG Processing", "WebSockets"],
     },
